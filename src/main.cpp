@@ -275,7 +275,7 @@ public:
 			terrain->init();
 		}
 
-		cubeMapTexture = createSky(resourceDirectory + "/cracks/", faces);
+		cubeMapTexture = createSky(resourceDirectory + "/skybox/", faces);
 	}
 
 	void setModel(std::shared_ptr<Program> prog, std::shared_ptr<MatrixStack>M) {
