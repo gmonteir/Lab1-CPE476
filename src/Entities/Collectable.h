@@ -5,7 +5,7 @@
 
 #include <memory>
 #include "../Components/Movement.h"
-#include "../Components/Position.h"
+#include "../Components/Transform.h"
 #include "../Components/Collision.h"
 #include "../Components/Render.h"
 
@@ -17,7 +17,7 @@ public:
 	virtual ~Collectable();
 	
 	std::shared_ptr<Movement> movementComponent;
-	std::shared_ptr<Position> positionComponent;
+	std::shared_ptr<Transform> transformComponent;
 	std::shared_ptr<Collision> collisionComponent;
 	std::shared_ptr<Render> renderComponent;
 

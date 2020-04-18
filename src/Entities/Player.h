@@ -6,7 +6,7 @@
 #include <memory>
 #include "../Components/Movement.h"
 #include "../Components/Collision.h"
-#include "../Components/Position.h"
+#include "../Components/Transform.h"
 
 class Player {
 
@@ -16,7 +16,7 @@ public:
 	virtual ~Player();
 	
 	std::shared_ptr<Movement> movementComponent;
-	std::shared_ptr<Position> positionComponent;
+	std::shared_ptr<Transform> transformComponent;
 	std::shared_ptr<Collision> collisionComponent;
 
 };

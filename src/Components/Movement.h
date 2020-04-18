@@ -16,14 +16,19 @@ public:
 
 	Movement(shared_ptr<Transform> transform);
 	Movement(shared_ptr<Transform> transform, vec3 velocity);
+	Movement(shared_ptr<Transform> transform, vec3 velocity, vec3 rotateSpeed);
+	Movement(shared_ptr<Transform> transform, vec3 velocity, vec3 rotateSpeed, vec3 scaleSpeed);
 	virtual ~Movement();
 
 	shared_ptr<Transform> transform;
 	vec3 velocity;
+	vec3 rotateSpeed;
+	vec3 scaleSpeed;
 
 	virtual void update();
 	void setVelocity(vec3 velocity);
-
+	void setRotateSpeed(vec3 rotateSpeed);
+	void setScaleSpeed(vec3 scaleSpeed);
 };
 
 #endif

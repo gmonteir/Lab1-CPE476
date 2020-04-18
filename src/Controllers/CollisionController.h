@@ -6,7 +6,7 @@
 #include <vector>
 #include <memory>
 #include <glm\glm.hpp>
-#include "src/Components/Collision.h"
+#include "../Components/Collision.h"
 
 class CollisionController {
 

@@ -6,7 +6,7 @@
 #include <vector>
 #include <memory>
 #include <glm\glm.hpp>
-#include "src/Components/Render.h"
+#include "../Components/Render.h"
 
 class RenderController {
 

@@ -6,7 +6,7 @@
 #include <vector>
 #include <memory>
 #include <glm\glm.hpp>
-#include "src/Components/Movement.h"
+#include "../Components/Movement.h"
 
 class MovementController {
 
