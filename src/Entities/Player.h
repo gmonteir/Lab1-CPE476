@@ -4,9 +4,9 @@
 #define PLAYER_INCLUDED
 
 #include <memory>
-#include "src/Components/Movement.h"
-#include "src/Components/Position.h"
-#include "src/Components/Collision.h"
+#include "../Components/Movement.h"
+#include "../Components/Collision.h"
+#include "../Components/Position.h"
 
 class Player {
 

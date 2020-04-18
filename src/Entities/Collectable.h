@@ -4,10 +4,10 @@
 #define COLLECTABLE_INCLUDED
 
 #include <memory>
-#include "src/Components/Movement.h"
-#include "src/Components/Position.h"
-#include "src/Components/Collision.h"
-#include "src/Components/Render.h"
+#include "../Components/Movement.h"
+#include "../Components/Position.h"
+#include "../Components/Collision.h"
+#include "../Components/Render.h"
 
 class Collectable {
 
