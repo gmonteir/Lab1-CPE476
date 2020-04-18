@@ -16,7 +16,6 @@
 #include "Texture.h"
 #include "MatrixStack.h"
 #include "WindowManager.h"
-#include "Particle.h"
 #include "stb_image.h"
 
 #define TINYOBJLOADER_IMPLEMENTATION
@@ -72,7 +71,7 @@ public:
 	unsigned int cubeMapTexture;
 
 	// Skybox faces
-	vector<std::string> faces{
+	vector<std::string> faces {
 		"bluecloud_rt.jpg",
 		"bluecloud_lf.jpg",
 		"bluecloud_up.jpg",
@@ -95,19 +94,13 @@ public:
 		if (key == GLFW_KEY_W && (action == GLFW_PRESS || action == GLFW_REPEAT))
 		{
 			eye += speed * forward;
-			if (eye.y < 0)
-			{
-				eye.y = 0;
-			}
+			eye.y = 0;
 			center += speed * forward;
 		}
 		if (key == GLFW_KEY_S && (action == GLFW_PRESS || action == GLFW_REPEAT))
 		{
 			eye -= speed * forward;
-			if (eye.y < 0)
-			{
-				eye.y = 0;
-			}
+			eye.y = 0;
 			center -= speed * forward;
 		}
 		if (key == GLFW_KEY_A && (action == GLFW_PRESS || action == GLFW_REPEAT))
@@ -135,27 +128,24 @@ public:
 
 	void cursorPosCallback(GLFWwindow* window, double xpos, double ypos)
 	{
-		if (mouseDown)
+		double deltaX = xpos - lastX;
+		double deltaY = ypos - lastY;
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+		theta += deltaX / 500;
+		phi += -deltaY / 500;
+
+		if (phi > 1.5)
 		{
-			double deltaX = xpos - lastX;
-			double deltaY = ypos - lastY;
-			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-
-			theta += deltaX / 500;
-			phi += -deltaY / 500;
-
-			if (phi > 1.5)
-			{
-				phi = 1.5;
-			}
-			else if (phi < -1.5)
-			{
-				phi = -1.5;
-			}
-
-			lastX += deltaX;
-			lastY += deltaY;
+			phi = 1.5;
 		}
+		else if (phi < -1.5)
+		{
+			phi = -1.5;
+		}
+
+		lastX += deltaX;
+		lastY += deltaY;
 	}
 
 	void mouseCallback(GLFWwindow *window, int button, int action, int mods)
@@ -263,7 +253,7 @@ public:
 			cube->init();
 		}
 
-		rc = tinyobj::LoadObj(TOshapes, objMaterials, errStr, (resourceDirectory + "/terrain.obj").c_str());
+		rc = tinyobj::LoadObj(TOshapes, objMaterials, errStr, (resourceDirectory + "/plane.obj").c_str());
 		if (!rc) {
 			cerr << errStr << endl;
 		}
@@ -368,7 +358,8 @@ public:
 
 			// draw ground
 			Model->pushMatrix();
-				Model->translate(vec3(0, -3, 0));
+				Model->scale(vec3(50, 1, 50));
+				Model->translate(vec3(0, -1, 0));
 				texture2->bind(prog->getUniform("Texture0"));
 				setModel(prog, Model);
 				terrain->draw(prog);
