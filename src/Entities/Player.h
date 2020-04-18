@@ -3,6 +3,11 @@
 #ifndef PLAYER_INCLUDED
 #define PLAYER_INCLUDED
 
+#include <memory>
+#include "src/Components/Movement.h"
+#include "src/Components/Position.h"
+#include "src/Components/Collision.h"
+
 class Player {
 
 public:
@@ -10,9 +15,9 @@ public:
 	Player();
 	virtual ~Player();
 	
-	Movement movementComponent;
-	Position positionComponent;
-	Collision collisionComponent;
+	std::shared_ptr<Movement> movementComponent;
+	std::shared_ptr<Position> positionComponent;
+	std::shared_ptr<Collision> collisionComponent;
 
 };
 

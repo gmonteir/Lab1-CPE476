@@ -1,8 +1,9 @@
 #pragma once
-#include <glm\glm.hpp>
 
 #ifndef MOVEMENT_INCLUDED
 #define MOVEMENT_INCLUDED
+
+#include <glm\glm.hpp>
 
 class Movement {
 
