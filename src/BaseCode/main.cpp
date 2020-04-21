@@ -17,6 +17,8 @@
 #include "MatrixStack.h"
 #include "WindowManager.h"
 #include "stb_image.h"
+#include "../Controllers/Shapes.h"
+#include "../Controllers/Textures.h"
 
 #define TINYOBJLOADER_IMPLEMENTATION
 #include <tiny_obj_loader/tiny_obj_loader.h>
@@ -54,6 +56,8 @@ public:
 	float time;
 
 	WindowManager * windowManager = nullptr;
+	Textures tex;
+	Shapes shapes;
 
 	// Our shader program
 	std::shared_ptr<Program> prog;
@@ -219,52 +223,19 @@ public:
 		specProg->addAttribute("vertPos");
 		specProg->addAttribute("vertNor");
 		specProg->addAttribute("vertTex");
+
+		
 	}
 
 	void initTex(const std::string& resourceDirectory)
-	{
-		texture2 = make_shared<Texture>();
-		texture2->setFilename(resourceDirectory + "/grass.jpg");
-		texture2->init();
-		texture2->setUnit(2);
-		texture2->setWrapModes(GL_REPEAT, GL_REPEAT);
+	{		
+		tex.addTexture(resourceDirectory + "/grass.jpg", "grass");
 	}
 
 	void initGeom(const std::string& resourceDirectory)
 	{
-
-		//EXAMPLE set up to read one shape from one obj file - convert to read several
-		// Initialize mesh
-		// Load geometry
- 		// Some obj files contain material information.We'll ignore them for this assignment.
- 		vector<tinyobj::shape_t> TOshapes;
- 		vector<tinyobj::material_t> objMaterials;
- 		string errStr;
-		
-		//load in the mesh and make the shape(s)
-		bool rc = tinyobj::LoadObj(TOshapes, objMaterials, errStr, (resourceDirectory + "/cube.obj").c_str());
-		if (!rc) {
-			cerr << errStr << endl;
-		}
-		else {
-			cube = make_shared<Shape>();
-			cube->createShape(TOshapes[0]);
-			cube->measure();
-			cube->init();
-		}
-
-		rc = tinyobj::LoadObj(TOshapes, objMaterials, errStr, (resourceDirectory + "/plane.obj").c_str());
-		if (!rc) {
-			cerr << errStr << endl;
-		}
-		else {
-			terrain = make_shared<Shape>();
-			terrain->createShape(TOshapes[0]);
-			terrain->tileCoords(8.0);
-			terrain->measure();
-			terrain->init();
-		}
-
+		shapes.addShape(resourceDirectory + "/cube.obj", "cube");
+		shapes.addShape(resourceDirectory + "/terrain.obj", "terrain");
 		cubeMapTexture = createSky(resourceDirectory + "/skybox/", faces);
 	}
 
@@ -310,7 +281,7 @@ public:
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		//Use the matrix stack for Lab 6
-		float aspect = width/(float)height;
+		float aspect = width/ (float)height;
 
 		time = frames / 60.0f;
 

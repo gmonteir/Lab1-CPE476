@@ -10,7 +10,7 @@ using namespace glm;
 
 Collectable::Collectable() {
 	Collectable::movementComponent = make_shared<Movement>();
-	Collectable::positionComponent = make_shared<Position>();
+	Collectable::transformComponent = make_shared<Transform>();
 	Collectable::collisionComponent = make_shared<Collision>();
 	Collectable::renderComponent = make_shared<Render>();
 }
