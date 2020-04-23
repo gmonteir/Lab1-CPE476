@@ -18,8 +18,6 @@ public:
 
 	virtual void update();
 
-	shared_ptr<MatrixStack> Projection;
-	shared_ptr<MatrixStack> View;
 	shared_ptr<Shape> shape;
 	shared_ptr<Program> program;
 	shared_ptr<Texture> texture;

@@ -15,7 +15,11 @@ class CollectableRenderer : public Render {
 
 public:
 
-	CollectableRenderer(shared_ptr<Shape> shape, shared_ptr<Program> program, shared_ptr<Texture> texture);
+	CollectableRenderer(shared_ptr<MatrixStack> Projection,
+		shared_ptr<MatrixStack> View,
+		shared_ptr<Shape> shape, 
+		shared_ptr<Program> program, 
+		shared_ptr<Texture> texture);
 
 	void update();
 

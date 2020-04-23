@@ -1,6 +1,10 @@
 #include "CollectableRenderer.h"
 
-CollectableRenderer::CollectableRenderer(shared_ptr<Shape> shape, shared_ptr<Program> program, shared_ptr<Texture> texture)
+CollectableRenderer::CollectableRenderer(shared_ptr<MatrixStack> Projection, 
+	shared_ptr<MatrixStack> View, 
+	shared_ptr<Shape> shape, 
+	shared_ptr<Program> program, 
+	shared_ptr<Texture> texture)
 {
 	CollectableRenderer::shape = shape;
 	CollectableRenderer::program = program;
