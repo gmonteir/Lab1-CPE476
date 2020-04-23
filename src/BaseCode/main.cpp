@@ -51,7 +51,7 @@ public:
 	vec3 up = vec3(0, 1, 0);
 	vec3 eye = vec3(0, 0.5, 0);
 	vec3 forward;
-	const vec3 speed = vec3(0.5, 0.5, 0.5);
+	const vec3 speed = vec3(1, 1, 1);
 
 	int lastX = 0;
 	int lastY = 0;
@@ -80,13 +80,13 @@ public:
 		if (key == GLFW_KEY_W && (action == GLFW_PRESS || action == GLFW_REPEAT))
 		{
 			eye += speed * forward;
-			eye.y = 0;
+			eye.y = 2;
 			center += speed * forward;
 		}
 		if (key == GLFW_KEY_S && (action == GLFW_PRESS || action == GLFW_REPEAT))
 		{
 			eye -= speed * forward;
-			eye.y = 0;
+			eye.y = 2;
 			center -= speed * forward;
 		}
 		if (key == GLFW_KEY_A && (action == GLFW_PRESS || action == GLFW_REPEAT))
@@ -183,6 +183,7 @@ public:
 	void initTex(const std::string& resourceDirectory)
 	{		
 		Textures::getInstance()->addTexture(resourceDirectory + "/grass.jpg", "grass");
+		Textures::getInstance()->addTexture(resourceDirectory + "/collectable.jpg", "collectable");
 	}
 
 	void initGeom(const std::string& resourceDirectory)
@@ -230,14 +231,14 @@ public:
 		glUniformMatrix4fv(prog->getUniform("V"), 1, GL_FALSE, value_ptr(lookAt(eye, center, up)));
 		glUniform3f(prog->getUniform("eyePos"), eye.x, eye.y, eye.z);
 
-		if (frames % 600 == 0) {
+		if (frames % 50 == 0) {
 			vec3 randPos = vec3(rand() % 25 - 25, 0, rand() % 25 - 25);
 
 			Collectable c = Collectable(randPos,
-				10,
+				0.1,
 				Shapes::getInstance()->getShape("sphere"),
 				prog,
-				Textures::getInstance()->getTexture("grass"));
+				Textures::getInstance()->getTexture("collectable"));
 
 			vec3 randVel = vec3((((rand() % 200) - 100) / 1500.0), 0, (((rand() % 200) - 100) / 1500.0));
 

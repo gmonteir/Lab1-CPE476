@@ -16,7 +16,7 @@ Collectable::Collectable(vec3 position,
 
 	Collectable::transformComponent = make_shared<Transform>(position);
 	Collectable::movementComponent = make_shared<Movement>(transformComponent);
-	Collectable::collisionComponent = make_shared<Collision>(transformComponent, radius);
+	Collectable::collisionComponent = make_shared<Collision>(transformComponent, movementComponent, radius);
 	Collectable::renderComponent = make_shared<Render>(shape, program, texture, transformComponent);
 
 	TransformController::getInstance()->addComponent(transformComponent);
