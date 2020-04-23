@@ -28,6 +28,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include "../Entities/Player.h"
 #include "../Controllers/RenderController.h"
+#include "../Entities/Terrain.h"
 
 #define PI 3.141592
 
@@ -181,8 +182,6 @@ public:
 		prog->addAttribute("vertNor");
 		prog->addAttribute("vertTex");		
 
-		Player player = Player(eye, 10);
-		Terrain 
 	}
 
 	void initTex(const std::string& resourceDirectory)
@@ -194,6 +193,9 @@ public:
 	{
 		shapes.addShape(resourceDirectory + "/cube.obj", "cube");
 		shapes.addShape(resourceDirectory + "/terrain.obj", "terrain");
+
+		Player player = Player(eye, 10);
+		Terrain terrain = Terrain(vec3(0, -3, 0), shapes.getShape("terrain"), prog, tex.getTexture("grass"));
 	}
 	
 	void render() {
@@ -223,6 +225,9 @@ public:
 		// Apply perspective projection.
 		Projection->pushMatrix();
 		Projection->perspective(45.0f, aspect, 0.01f, 10000.0f);
+
+
+
 	}
 };
 
