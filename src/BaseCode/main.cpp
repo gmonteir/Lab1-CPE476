@@ -232,10 +232,10 @@ public:
 		glUniform3f(prog->getUniform("eyePos"), eye.x, eye.y, eye.z);
 
 		if (frames % 50 == 0) {
-			vec3 randPos = vec3(rand() % 25 - 25, 0, rand() % 25 - 25);
+			vec3 randPos = vec3(rand() % 50 - 25, 0, rand() % 50 - 25);
 
 			Collectable c = Collectable(randPos,
-				0.1,
+				1,
 				Shapes::getInstance()->getShape("sphere"),
 				prog,
 				Textures::getInstance()->getTexture("collectable"));

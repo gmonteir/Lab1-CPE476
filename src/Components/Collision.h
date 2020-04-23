@@ -6,6 +6,7 @@
 #include <glm\glm.hpp>
 #include <memory>
 #include <vector>
+#include <iostream>
 #include "Transform.h"
 #include "Movement.h"
 #include "../Controllers/TransformController.h"
