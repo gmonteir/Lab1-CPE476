@@ -17,8 +17,8 @@ public:
 
 	static std::shared_ptr<TransformController> instance;
 
-	std::vector<Transform> transformComponents;
-	void update();
+	std::vector<shared_ptr<Transform>> transformComponents;
+	void TransformController::addComponent(shared_ptr<Transform>& transform);
 
 };
 

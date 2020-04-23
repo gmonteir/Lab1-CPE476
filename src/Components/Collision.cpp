@@ -11,10 +11,12 @@ Collision::~Collision()
 {
 }
 
-void Collision::update(vector<shared_ptr<Collision>> worldObjects)
+void Collision::update()
 {
-	for (int i=0; i < worldObjects.size; i++) {
-		if (distance(transform->position, worldObjects[i]->transform->position) < radius) {
+	vector<shared_ptr<Transform>> comps = TransformController::instance->transformComponents;
+	
+	for (int i = 0; i < comps.size; i++) {
+		if (distance(transform->position, comps[i]->position) < radius) {
 			isColliding = true;
 		}
 	}

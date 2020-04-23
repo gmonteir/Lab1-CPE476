@@ -17,8 +17,9 @@ public:
 
 	static std::shared_ptr<RenderController> instance;
 	
-	std::vector<Render> renderComponents;
+	std::vector<shared_ptr<Render>> renderComponents;
 	void update();
+	void RenderController::addComponent(shared_ptr<Render>& render);
 
 };
 

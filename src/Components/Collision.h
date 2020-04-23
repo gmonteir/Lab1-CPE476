@@ -7,6 +7,7 @@
 #include <memory>
 #include <vector>
 #include "Transform.h"
+#include "../Controllers/TransformController.h"
 
 using namespace std;
 using namespace glm;
@@ -18,7 +19,7 @@ public:
 	Collision(shared_ptr<Transform> transform, float radius);
 	virtual ~Collision();
 
-	virtual void update(vector<shared_ptr<Collision>> worldObjects);
+	virtual void update();
 
 	bool isColliding;
 	shared_ptr<Transform> transform;

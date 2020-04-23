@@ -17,8 +17,9 @@ public:
 
 	static std::shared_ptr<MovementController> instance;
 	
-	std::vector<Movement> movementComponents;
+	std::vector<shared_ptr<Movement>> movementComponents;
 	void update();
+	void MovementController::addComponent(shared_ptr<Movement>& movement);
 
 };
 

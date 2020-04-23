@@ -17,8 +17,9 @@ public:
 
 	static std::shared_ptr<CollisionController> instance;
 
-	std::vector<Collision> collisionComponents;
+	std::vector<shared_ptr<Collision>> collisionComponents;
 	void update();
+	void CollisionController::addComponent(shared_ptr<Collision>& collision);
 
 };
 

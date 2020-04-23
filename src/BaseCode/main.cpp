@@ -61,28 +61,6 @@ public:
 
 	// Our shader program
 	std::shared_ptr<Program> prog;
-	std::shared_ptr<Program> skyProg;
-	std::shared_ptr<Program> specProg;
-
-	// Shape to be used (from  file) - modify to support multiple
-	std::shared_ptr<Shape> terrain;
-	std::shared_ptr<Shape> cube;
-
-	// Textures
-	shared_ptr<Texture> texture0;
-	shared_ptr<Texture> texture1;
-	shared_ptr<Texture> texture2;
-	unsigned int cubeMapTexture;
-
-	// Skybox faces
-	vector<std::string> faces {
-		"bluecloud_rt.jpg",
-		"bluecloud_lf.jpg",
-		"bluecloud_up.jpg",
-		"bluecloud_dn.jpg",
-		"bluecloud_bk.jpg",
-		"bluecloud_ft.jpg"
-	};
 
 	//example data that might be useful when trying to compute bounds on multi-shape
 	vec3 gMin;
@@ -194,37 +172,7 @@ public:
 		prog->addUniform("eyePos");
 		prog->addAttribute("vertPos");
 		prog->addAttribute("vertNor");
-		prog->addAttribute("vertTex");
-
-		skyProg = make_shared<Program>();
-		skyProg->setVerbose(true);
-		skyProg->setShaderNames(resourceDirectory + "/cube_vert.glsl", resourceDirectory + "/cube_frag.glsl");
-		skyProg->init();
-		skyProg->addUniform("P");
-		skyProg->addUniform("V");
-		skyProg->addUniform("M");
-		skyProg->addUniform("skybox");
-		skyProg->addAttribute("vertPos");
-		skyProg->addAttribute("vertNor");
-
-		specProg = make_shared<Program>();
-		specProg->setVerbose(true);
-		specProg->setShaderNames(resourceDirectory + "/simple_vert.glsl", resourceDirectory + "/simple_frag.glsl");
-		specProg->init();
-		specProg->addUniform("P");
-		specProg->addUniform("V");
-		specProg->addUniform("M");
-		specProg->addUniform("MatAmb");
-		specProg->addUniform("MatDif");
-		specProg->addUniform("MatSpec");
-		specProg->addUniform("shine");
-		specProg->addUniform("lightPos");
-		specProg->addUniform("eye");
-		specProg->addAttribute("vertPos");
-		specProg->addAttribute("vertNor");
-		specProg->addAttribute("vertTex");
-
-		
+		prog->addAttribute("vertTex");		
 	}
 
 	void initTex(const std::string& resourceDirectory)
@@ -236,39 +184,6 @@ public:
 	{
 		shapes.addShape(resourceDirectory + "/cube.obj", "cube");
 		shapes.addShape(resourceDirectory + "/terrain.obj", "terrain");
-		cubeMapTexture = createSky(resourceDirectory + "/skybox/", faces);
-	}
-
-	void setModel(std::shared_ptr<Program> prog, std::shared_ptr<MatrixStack>M) {
-		glUniformMatrix4fv(prog->getUniform("M"), 1, GL_FALSE, value_ptr(M->topMatrix()));
-    }
-
-	unsigned int createSky(string dir, vector<string> faces)
-	{
-		unsigned int textureID;
-		glGenTextures(1, &textureID);
-		glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
-		int width, height, nrChannels;
-		stbi_set_flip_vertically_on_load(false);
-		for (GLuint i = 0; i < faces.size(); i++)
-		{
-			unsigned char* data = stbi_load((dir+faces[i]).c_str(), &width, &height, &nrChannels, 0);
-			if (data)
-			{
-				glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-			}
-			else
-			{
-				cout << "failed to load: " << (dir+faces[i]).c_str() << endl;
-			}
-		}
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-		cout << " creating cube map any errors : " << glGetError() << endl;
-		return textureID;
 	}
 	
 	void render() {
@@ -298,46 +213,6 @@ public:
 		// Apply perspective projection.
 		Projection->pushMatrix();
 		Projection->perspective(45.0f, aspect, 0.01f, 10000.0f);
-
-		// Draw skybox
-		skyProg->bind();
-		glUniformMatrix4fv(skyProg->getUniform("P"), 1, GL_FALSE, value_ptr(Projection->topMatrix()));
-		glDepthFunc(GL_LEQUAL);
-		glUniformMatrix4fv(skyProg->getUniform("V"), 1, GL_FALSE, value_ptr(lookAt(eye, center, up)));
-
-		Model->pushMatrix();
-			Model->loadIdentity();
-			Model->translate(eye);
-			Model->scale(vec3(110, 110, 110));
-
-			glBindTexture(GL_TEXTURE_CUBE_MAP, cubeMapTexture);
-			setModel(skyProg, Model);
-			cube->draw(skyProg);
-		Model->popMatrix();
-
-		glDepthFunc(GL_LESS);
-		skyProg->unbind();
-		
-		prog->bind();
-		glUniformMatrix4fv(prog->getUniform("P"), 1, GL_FALSE, value_ptr(Projection->topMatrix()));
-		glUniformMatrix4fv(prog->getUniform("V"), 1, GL_FALSE, value_ptr(lookAt(eye, center, up)));
-		glUniform3f(prog->getUniform("eyePos"), eye.x, eye.y, eye.z);
-
-		// draw stuff
-		Model->pushMatrix();
-			Model->loadIdentity();
-
-			// draw ground
-			Model->pushMatrix();
-				Model->scale(vec3(50, 1, 50));
-				Model->translate(vec3(0, -1, 0));
-				texture2->bind(prog->getUniform("Texture0"));
-				setModel(prog, Model);
-				terrain->draw(prog);
-				texture2->unbind();
-			Model->popMatrix();
-		prog->unbind();
-		Projection->popMatrix();
 	}
 };
 

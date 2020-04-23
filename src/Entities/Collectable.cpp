@@ -14,3 +14,7 @@ Collectable::Collectable() {
 	Collectable::collisionComponent = make_shared<Collision>();
 	Collectable::renderComponent = make_shared<Render>();
 }
+
+Collectable::~Collectable()
+{
+}

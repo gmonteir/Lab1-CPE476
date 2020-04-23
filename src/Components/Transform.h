@@ -6,6 +6,7 @@
 #include <glm\glm.hpp>
 
 using namespace glm;
+using namespace std;
 
 class Transform {
 
