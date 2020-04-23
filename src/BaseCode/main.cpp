@@ -26,6 +26,8 @@
 // value_ptr for glm
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include "../Entities/Player.h"
+#include "../Controllers/RenderController.h"
 
 #define PI 3.141592
 
@@ -58,6 +60,11 @@ public:
 	WindowManager * windowManager = nullptr;
 	Textures tex;
 	Shapes shapes;
+
+	TransformController tc;
+	MovementController mc;
+	CollisionController cc;
+	RenderController rc;
 
 	// Our shader program
 	std::shared_ptr<Program> prog;
@@ -173,6 +180,9 @@ public:
 		prog->addAttribute("vertPos");
 		prog->addAttribute("vertNor");
 		prog->addAttribute("vertTex");		
+
+		Player player = Player(eye, 10);
+		Terrain 
 	}
 
 	void initTex(const std::string& resourceDirectory)

@@ -7,12 +7,18 @@
 #include "../Components/Movement.h"
 #include "../Components/Collision.h"
 #include "../Components/Transform.h"
+#include "../BaseCode/Shape.h"
+#include "../BaseCode/Texture.h"
+#include "../BaseCode/Program.h"
+#include "../Controllers/MovementController.h"
+#include "../Controllers/CollisionController.h"
 
 class Player {
 
 public:
 	
-	Player();
+	
+	Player(vec3 position, float radius);
 	virtual ~Player();
 	
 	std::shared_ptr<Movement> movementComponent;

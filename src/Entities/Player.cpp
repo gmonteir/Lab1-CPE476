@@ -1,13 +1,21 @@
 #include "Player.h"
 
+
 using namespace std;
 
-Player::Player() {
-	Player::movementComponent = make_shared<Movement>();
-	Player::transformComponent = make_shared<Transform>();
-	Player::collisionComponent = make_shared<Collision>();
+Player::Player(vec3 position, float radius) {
+	
+	Player::transformComponent = make_shared<Transform>(position);
+	Player::collisionComponent = make_shared<Collision>(transformComponent, radius);
+	
+	TransformController::instance->addComponent(transformComponent);
+	MovementController::instance->addComponent(movementComponent);
+	CollisionController::instance->addComponent(collisionComponent);
 }
 
 Player::~Player()
 {
 }
+
+
+

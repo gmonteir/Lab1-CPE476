@@ -5,16 +5,39 @@
 #include "../BaseCode/GLSL.h"
 #include "../BaseCode/Program.h"
 
+
 using namespace std;
 using namespace glm;
 
-Collectable::Collectable() {
-	Collectable::movementComponent = make_shared<Movement>();
-	Collectable::transformComponent = make_shared<Transform>();
-	Collectable::collisionComponent = make_shared<Collision>();
-	Collectable::renderComponent = make_shared<Render>();
+Collectable::Collectable(vec3 position, 
+	float radius,
+	shared_ptr<Shape> shape, 
+	shared_ptr<Program> program, 
+	shared_ptr<Texture> texture) {
+
+	Collectable::transformComponent = make_shared<Transform>(position);
+	Collectable::movementComponent = make_shared<Movement>(transformComponent);
+	Collectable::collisionComponent = make_shared<Collision>(transformComponent, radius);
+	Collectable::renderComponent = make_shared<Render>(transformComponent, shape, program, texture);
+
+	TransformController::instance->addComponent(transformComponent);
+	MovementController::instance->addComponent(movementComponent);
+	CollisionController::instance->addComponent(collisionComponent);
+	RenderController::instance->addComponent(renderComponent);
 }
 
 Collectable::~Collectable()
 {
+}
+
+void Collectable::setVelocity(vec3 velocity) {
+	movementComponent->setVelocity(velocity);
+}
+
+void Collectable::setRotateSpeed(vec3 rotateSpeed) {
+	movementComponent->setRotateSpeed(rotateSpeed);
+}
+
+void Collectable::setScaleSpeed(vec3 scaleSpeed) {
+	movementComponent->setScaleSpeed(scaleSpeed);
 }
