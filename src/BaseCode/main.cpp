@@ -29,6 +29,7 @@
 #include "../Entities/Player.h"
 #include "../Controllers/RenderController.h"
 #include "../Entities/Terrain.h"
+#include "../Entities/Collectable.h"
 
 #define PI 3.141592
 
@@ -62,6 +63,8 @@ public:
 
 	// Our shader program
 	std::shared_ptr<Program> prog;
+
+	vector<Collectable> collectables;
 
 	//example data that might be useful when trying to compute bounds on multi-shape
 	vec3 gMin;
@@ -184,7 +187,7 @@ public:
 
 	void initGeom(const std::string& resourceDirectory)
 	{
-		Shapes::getInstance()->addShape(resourceDirectory + "/cube.obj", "cube");
+		Shapes::getInstance()->addShape(resourceDirectory + "/sphere.obj", "sphere");
 		Shapes::getInstance()->addShape(resourceDirectory + "/terrain.obj", "terrain");
 		Shapes::getInstance()->addShape(resourceDirectory + "/plane.obj", "plane");
 
@@ -192,6 +195,7 @@ public:
 		shared_ptr<Texture> test = Textures::getInstance()->getTexture("grass");
 		Terrain terrain = Terrain(vec3(0, -3, 0), Shapes::getInstance()->getShape("plane"), prog, Textures::getInstance()->getTexture("grass"));
 		terrain.transformComponent->setScale(vec3(50, 1, 50));
+
 	}
 	
 	void render() {
@@ -226,9 +230,32 @@ public:
 		glUniformMatrix4fv(prog->getUniform("V"), 1, GL_FALSE, value_ptr(lookAt(eye, center, up)));
 		glUniform3f(prog->getUniform("eyePos"), eye.x, eye.y, eye.z);
 
+		if (frames % 600 == 0) {
+			vec3 randPos = vec3(rand() % 25 - 25, 0, rand() % 25 - 25);
+
+			Collectable c = Collectable(randPos,
+				10,
+				Shapes::getInstance()->getShape("sphere"),
+				prog,
+				Textures::getInstance()->getTexture("grass"));
+
+			vec3 randVel = vec3((((rand() % 200) - 100) / 1500.0), 0, (((rand() % 200) - 100) / 1500.0));
+
+			cout << randVel.x << endl;
+
+			c.movementComponent->setVelocity(randVel);
+
+			collectables.push_back(c);
+
+		}
+
+		
+
+
 		MovementController::getInstance()->update();
 		RenderController::getInstance()->update();
 		CollisionController::getInstance()->update();
+
 		prog->unbind();
 	}
 };
