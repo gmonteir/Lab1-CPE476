@@ -16,11 +16,11 @@ Terrain::Terrain(vec3 position,
 
 	Terrain::transformComponent = make_shared<Transform>(position);
 	//Terrain::collisionComponent = make_shared<Collision>(transformComponent, radius);
-	Terrain::renderComponent = make_shared<Render>(transformComponent, shape, program, texture);
+	Terrain::renderComponent = make_shared<Render>(shape, program, texture, transformComponent);
 
-	TransformController::instance->addComponent(transformComponent);
+	TransformController::getInstance()->addComponent(transformComponent);
 	//CollisionController::instance->addComponent(collisionComponent);
-	RenderController::instance->addComponent(renderComponent);
+	RenderController::getInstance()->addComponent(renderComponent);
 }
 
 Terrain::~Terrain()

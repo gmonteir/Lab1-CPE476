@@ -10,12 +10,12 @@
 
 class RenderController {
 
+	static std::shared_ptr<RenderController> instance;
+	RenderController() {};
+
 public:
 
-	RenderController();
-	virtual ~RenderController();
-
-	static std::shared_ptr<RenderController> instance;
+	static shared_ptr<RenderController> getInstance();
 	
 	std::vector<shared_ptr<Render>> renderComponents;
 	void update();

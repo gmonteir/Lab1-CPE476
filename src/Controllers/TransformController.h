@@ -10,12 +10,12 @@
 
 class TransformController {
 
+	static std::shared_ptr<TransformController> instance;
+	TransformController() {};
+
 public:
 
-	TransformController();
-	virtual ~TransformController();
-
-	static std::shared_ptr<TransformController> instance;
+	static shared_ptr<TransformController> getInstance();
 
 	std::vector<shared_ptr<Transform>> transformComponents;
 	void TransformController::addComponent(shared_ptr<Transform>& transform);

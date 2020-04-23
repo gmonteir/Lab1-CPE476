@@ -59,13 +59,6 @@ public:
 	float time;
 
 	WindowManager * windowManager = nullptr;
-	Textures tex;
-	Shapes shapes;
-
-	TransformController tc;
-	MovementController mc;
-	CollisionController cc;
-	RenderController rc;
 
 	// Our shader program
 	std::shared_ptr<Program> prog;
@@ -186,16 +179,19 @@ public:
 
 	void initTex(const std::string& resourceDirectory)
 	{		
-		tex.addTexture(resourceDirectory + "/grass.jpg", "grass");
+		Textures::getInstance()->addTexture(resourceDirectory + "/grass.jpg", "grass");
 	}
 
 	void initGeom(const std::string& resourceDirectory)
 	{
-		shapes.addShape(resourceDirectory + "/cube.obj", "cube");
-		shapes.addShape(resourceDirectory + "/terrain.obj", "terrain");
+		Shapes::getInstance()->addShape(resourceDirectory + "/cube.obj", "cube");
+		Shapes::getInstance()->addShape(resourceDirectory + "/terrain.obj", "terrain");
+		Shapes::getInstance()->addShape(resourceDirectory + "/plane.obj", "plane");
 
 		Player player = Player(eye, 10);
-		Terrain terrain = Terrain(vec3(0, -3, 0), shapes.getShape("terrain"), prog, tex.getTexture("grass"));
+		shared_ptr<Texture> test = Textures::getInstance()->getTexture("grass");
+		Terrain terrain = Terrain(vec3(0, -3, 0), Shapes::getInstance()->getShape("plane"), prog, Textures::getInstance()->getTexture("grass"));
+		terrain.transformComponent->setScale(vec3(50, 1, 50));
 	}
 	
 	void render() {
@@ -219,15 +215,21 @@ public:
 		forward = normalize(center - eye);
 
 		// Create the matrix stacks - please leave these alone for now
+		prog->bind();
 		auto Projection = make_shared<MatrixStack>();
-		auto Model = make_shared<MatrixStack>();
 
 		// Apply perspective projection.
 		Projection->pushMatrix();
 		Projection->perspective(45.0f, aspect, 0.01f, 10000.0f);
 
+		glUniformMatrix4fv(prog->getUniform("P"), 1, GL_FALSE, value_ptr(Projection->topMatrix()));
+		glUniformMatrix4fv(prog->getUniform("V"), 1, GL_FALSE, value_ptr(lookAt(eye, center, up)));
+		glUniform3f(prog->getUniform("eyePos"), eye.x, eye.y, eye.z);
 
-
+		MovementController::getInstance()->update();
+		RenderController::getInstance()->update();
+		CollisionController::getInstance()->update();
+		prog->unbind();
 	}
 };
 
@@ -255,8 +257,8 @@ int main(int argc, char *argv[])
 	// may need to initialize or set up different data and state
 
 	application->init(resourceDir);
-	application->initGeom(resourceDir);
 	application->initTex(resourceDir);
+	application->initGeom(resourceDir);
 
 	// Loop until the user closes the window.
 	while (! glfwWindowShouldClose(windowManager->getHandle()))

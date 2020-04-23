@@ -13,9 +13,9 @@ Collision::~Collision()
 
 void Collision::update()
 {
-	vector<shared_ptr<Transform>> comps = TransformController::instance->transformComponents;
+	vector<shared_ptr<Transform>> comps = TransformController::getInstance()->transformComponents;
 	
-	for (int i = 0; i < comps.size; i++) {
+	for (int i = 0; i < comps.size(); i++) {
 		if (distance(transform->position, comps[i]->position) < radius) {
 			isColliding = true;
 		}

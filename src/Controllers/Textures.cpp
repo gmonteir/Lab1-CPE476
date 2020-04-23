@@ -1,16 +1,10 @@
 #include "Textures.h"
 
-Textures::Textures()
-{
-	if (instance == nullptr)
-	{
-		instance = make_shared<Textures>();
-	}
-}
 
-Textures::~Textures()
+shared_ptr<Textures> Textures::getInstance()
 {
-	instance = nullptr;
+	static shared_ptr<Textures> instance(new Textures);
+	return instance;
 }
 
 void Textures::addTexture(const string& filename, const string& key)

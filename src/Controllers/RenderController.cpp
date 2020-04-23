@@ -1,26 +1,16 @@
 #include "RenderController.h"
 
-RenderController::RenderController()
+shared_ptr<RenderController> RenderController::getInstance()
 {
-	if (instance == nullptr)
-	{
-		instance = make_shared<RenderController>();
-	}
-}
-
-RenderController::~RenderController()
-{
-	if (instance)
-	{
-		instance = nullptr;
-	}
+	static shared_ptr<RenderController> instance(new RenderController);
+	return instance;
 }
 
 void RenderController::update()
 {
-	for (size_t i = 0; i < renderComponents.size; i++)
+	for (size_t i = 0; i < renderComponents.size(); i++)
 	{
-		renderComponents[i]->update();
+		if (renderComponents[i] != nullptr) renderComponents[i]->update();
 	}
 }
 

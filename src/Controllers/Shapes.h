@@ -14,12 +14,12 @@ using namespace std;
 
 class Shapes {
 
+	static shared_ptr<Shapes> instance;
+	Shapes() {};
+
 public:
 
-	Shapes();
-	virtual ~Shapes();
-
-	static shared_ptr<Shapes> instance;
+	static shared_ptr<Shapes> getInstance();
 
 	unordered_map<string, shared_ptr<Shape>> allShapes;
 	void addShape(const string& filename, const string& key);

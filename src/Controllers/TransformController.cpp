@@ -1,19 +1,9 @@
 #include "TransformController.h"
 
-TransformController::TransformController()
+shared_ptr<TransformController> TransformController::getInstance()
 {
-	if (instance == nullptr)
-	{
-		instance = make_shared<TransformController>();
-	}
-}
-
-TransformController::~TransformController()
-{
-	if (instance)
-	{
-		instance = nullptr;
-	}
+	static shared_ptr<TransformController> instance(new TransformController);
+	return instance;
 }
 
 void TransformController::addComponent(shared_ptr<Transform>& transform)

@@ -1,26 +1,16 @@
 #include "MovementController.h"
 
-MovementController::MovementController()
+shared_ptr<MovementController> MovementController::getInstance()
 {
-	if (instance == nullptr)
-	{
-		instance = make_shared<MovementController>();
-	}
-}
-
-MovementController::~MovementController()
-{
-	if (instance)
-	{
-		instance = nullptr;
-	}
+	static shared_ptr<MovementController> instance(new MovementController);
+	return instance;
 }
 
 void MovementController::update()
 {
-	for (size_t i = 0; i < movementComponents.size; i++)
+	for (size_t i = 0; i < movementComponents.size(); i++)
 	{
-		movementComponents[i]->update();
+		if (movementComponents[i] != nullptr) movementComponents[i]->update();
 	}
 }
 

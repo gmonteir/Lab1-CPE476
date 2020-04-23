@@ -23,3 +23,15 @@ Transform::Transform(vec3 position, vec3 rotation, vec3 scale) {
 	Transform::rotation = rotation;
 	Transform::scale = scale;
 }
+
+void Transform::setPosition(vec3 position) {
+	Transform::position = position;
+}
+
+void Transform::setRotation(vec3 rotation) {
+	Transform::rotation = rotation;
+}
+
+void Transform::setScale(vec3 scale) {
+	Transform::scale = scale;
+}

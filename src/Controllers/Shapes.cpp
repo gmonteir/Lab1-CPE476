@@ -1,16 +1,9 @@
 #include "Shapes.h"
 
-Shapes::Shapes()
+shared_ptr<Shapes> Shapes::getInstance()
 {
-	if (instance == nullptr)
-	{
-		instance = make_shared<Shapes>();
-	}
-}
-
-Shapes::~Shapes()
-{
-	instance = nullptr;
+	static shared_ptr<Shapes> instance(new Shapes);
+	return instance;
 }
 
 void Shapes::addShape(const string& filename, const string& key)

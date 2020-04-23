@@ -10,12 +10,12 @@
 
 class MovementController {
 
+	static std::shared_ptr<MovementController> instance;
+	MovementController() {};
+
 public:
 
-	MovementController();
-	virtual ~MovementController();
-
-	static std::shared_ptr<MovementController> instance;
+	static shared_ptr<MovementController> getInstance();
 	
 	std::vector<shared_ptr<Movement>> movementComponents;
 	void update();

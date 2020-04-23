@@ -14,12 +14,12 @@ using namespace std;
 
 class Textures {
 
+	static shared_ptr<Textures> instance;
+	Textures() {};
+
 public:
 
-	Textures();
-	virtual ~Textures();
-
-	static shared_ptr<Textures> instance;
+	static shared_ptr<Textures> getInstance();
 
 	unordered_map<string, shared_ptr<Texture>> allTextures;
 	int currentUnit = 0;

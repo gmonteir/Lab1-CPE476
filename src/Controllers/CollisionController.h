@@ -10,12 +10,12 @@
 
 class CollisionController {
 
+	static std::shared_ptr<CollisionController> instance;
+	CollisionController() {};
+
 public:
 
-	CollisionController();
-	virtual ~CollisionController();
-
-	static std::shared_ptr<CollisionController> instance;
+	static shared_ptr<CollisionController> getInstance();
 
 	std::vector<shared_ptr<Collision>> collisionComponents;
 	void update();

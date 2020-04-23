@@ -16,6 +16,9 @@ public:
 	Transform(vec3 position);
 	Transform(vec3 position, vec3 rotation);
 	Transform(vec3 position, vec3 rotation, vec3 scale);
+	void Transform::setPosition(vec3 position);
+	void Transform::setRotation(vec3 rotation);
+	void Transform::setScale(vec3 scale);
 	
 	vec3 position;
 	vec3 rotation;

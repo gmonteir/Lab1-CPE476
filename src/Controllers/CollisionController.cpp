@@ -1,26 +1,17 @@
 #include "CollisionController.h"
 
-CollisionController::CollisionController()
-{
-	if (instance == nullptr)
-	{
-		instance = make_shared<CollisionController>();
-	}
-}
 
-CollisionController::~CollisionController()
+shared_ptr<CollisionController> CollisionController::getInstance()
 {
-	if (instance)
-	{
-		instance = nullptr;
-	}
+	static shared_ptr<CollisionController> instance(new CollisionController);
+	return instance;
 }
 
 void CollisionController::update()
 {
-	for (size_t i = 0; i < collisionComponents.size; i++)
+	for (size_t i = 0; i < collisionComponents.size(); i++)
 	{
-		collisionComponents[i]->update();
+		if (collisionComponents[i] != nullptr) collisionComponents[i]->update();
 	}
 }
 
