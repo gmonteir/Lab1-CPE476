@@ -19,6 +19,7 @@ public:
 
 	std::vector<shared_ptr<Transform>> transformComponents;
 	void TransformController::addComponent(shared_ptr<Transform>& transform);
+	int numCollected = 0;
 
 };
 

@@ -59,11 +59,14 @@ public:
 	long frames = 0;
 	float time;
 
+	int numObjects = 0;
+
 	WindowManager * windowManager = nullptr;
 
 	// Our shader program
 	std::shared_ptr<Program> prog;
 
+	Player player = Player(eye, 1);
 	vector<Collectable> collectables;
 
 	//example data that might be useful when trying to compute bounds on multi-shape
@@ -80,13 +83,13 @@ public:
 		if (key == GLFW_KEY_W && (action == GLFW_PRESS || action == GLFW_REPEAT))
 		{
 			eye += speed * forward;
-			eye.y = 2;
+			eye.y = 1;
 			center += speed * forward;
 		}
 		if (key == GLFW_KEY_S && (action == GLFW_PRESS || action == GLFW_REPEAT))
 		{
 			eye -= speed * forward;
-			eye.y = 2;
+			eye.y = 1;
 			center -= speed * forward;
 		}
 		if (key == GLFW_KEY_A && (action == GLFW_PRESS || action == GLFW_REPEAT))
@@ -105,6 +108,8 @@ public:
 		if (key == GLFW_KEY_Z && action == GLFW_RELEASE) {
 			glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
 		}
+
+		player.transformComponent->setPosition(eye);
 	}
 
 	void scrollCallback(GLFWwindow* window, double deltaX, double deltaY)
@@ -192,7 +197,6 @@ public:
 		Shapes::getInstance()->addShape(resourceDirectory + "/terrain.obj", "terrain");
 		Shapes::getInstance()->addShape(resourceDirectory + "/plane.obj", "plane");
 
-		Player player = Player(eye, 10);
 		shared_ptr<Texture> test = Textures::getInstance()->getTexture("grass");
 		Terrain terrain = Terrain(vec3(0, -3, 0), Shapes::getInstance()->getShape("plane"), prog, Textures::getInstance()->getTexture("grass"));
 		terrain.transformComponent->setScale(vec3(50, 1, 50));
@@ -231,27 +235,28 @@ public:
 		glUniformMatrix4fv(prog->getUniform("V"), 1, GL_FALSE, value_ptr(lookAt(eye, center, up)));
 		glUniform3f(prog->getUniform("eyePos"), eye.x, eye.y, eye.z);
 
-		if (frames % 50 == 0) {
+		if (frames % 100 == 0) {
+			numObjects++;
+			
 			vec3 randPos = vec3(rand() % 50 - 25, 0, rand() % 50 - 25);
 
 			Collectable c = Collectable(randPos,
-				1,
+				0.8,
 				Shapes::getInstance()->getShape("sphere"),
 				prog,
 				Textures::getInstance()->getTexture("collectable"));
 
 			vec3 randVel = vec3((((rand() % 200) - 100) / 1500.0), 0, (((rand() % 200) - 100) / 1500.0));
 
-			cout << randVel.x << endl;
+			cout << "Number of objects spawned: ";
+			cout << numObjects;
+			cout << endl;
 
 			c.movementComponent->setVelocity(randVel);
 
 			collectables.push_back(c);
 
 		}
-
-		
-
 
 		MovementController::getInstance()->update();
 		RenderController::getInstance()->update();

@@ -4,11 +4,12 @@
 #define TRANSFORM_INCLUDED
 
 #include <glm\glm.hpp>
+#include "Component.h"
 
 using namespace glm;
 using namespace std;
 
-class Transform {
+class Transform : public Component {
 
 public:
 
@@ -19,10 +20,12 @@ public:
 	void Transform::setPosition(vec3 position);
 	void Transform::setRotation(vec3 rotation);
 	void Transform::setScale(vec3 scale);
+	void Transform::setRadius(float radius);
 	
 	vec3 position;
 	vec3 rotation;
 	vec3 scale;
+	float radius;
 
 };
 

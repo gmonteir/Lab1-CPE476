@@ -4,6 +4,7 @@
 #define TERRAIN_INCLUDED
 
 #include <memory>
+#include "GameObject.h"
 #include "../Components/Movement.h"
 #include "../Components/Transform.h"
 #include "../Components/Collision.h"

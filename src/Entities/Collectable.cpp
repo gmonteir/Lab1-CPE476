@@ -19,6 +19,12 @@ Collectable::Collectable(vec3 position,
 	Collectable::collisionComponent = make_shared<Collision>(transformComponent, movementComponent, radius);
 	Collectable::renderComponent = make_shared<Render>(shape, program, texture, transformComponent);
 
+	Collectable::transformComponent->setRadius(radius);
+	/*Collectable::transformComponent->parent = (GameObject*)(this);
+	Collectable::movementComponent->parent = (GameObject*)(this);
+	Collectable::collisionComponent->parent = (GameObject*)(this);
+	Collectable::renderComponent->parent = (GameObject*)(this);*/
+
 	TransformController::getInstance()->addComponent(transformComponent);
 	MovementController::getInstance()->addComponent(movementComponent);
 	CollisionController::getInstance()->addComponent(collisionComponent);

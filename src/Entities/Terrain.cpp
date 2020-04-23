@@ -18,6 +18,9 @@ Terrain::Terrain(vec3 position,
 	//Terrain::collisionComponent = make_shared<Collision>(transformComponent, radius);
 	Terrain::renderComponent = make_shared<Render>(shape, program, texture, transformComponent);
 
+	/*Terrain::transformComponent->parent = (GameObject*)(this);
+	Terrain::renderComponent->parent = (GameObject*)(this);*/
+
 	TransformController::getInstance()->addComponent(transformComponent);
 	//CollisionController::instance->addComponent(collisionComponent);
 	RenderController::getInstance()->addComponent(renderComponent);

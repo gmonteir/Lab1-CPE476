@@ -4,6 +4,7 @@
 #define PLAYER_INCLUDED
 
 #include <memory>
+#include "GameObject.h"
 #include "../Components/Movement.h"
 #include "../Components/Collision.h"
 #include "../Components/Transform.h"

@@ -24,17 +24,32 @@ void Collision::update()
 		{
 			if (distance(transform->position, comps[i]->transform->position) < radius*2) {
 				isColliding = true;
+				
+				if (comps[i]->transform->radius == 1 && !(movement->isFrozen))
+				{
+					TransformController::getInstance()->numCollected++;
+					int num = TransformController::getInstance()->numCollected;
+					
+					movement->setVelocity(vec3(0, 0, 0));
+					movement->isFrozen = true;
 
-				float oldX = movement->velocity.x * -1;
-				float oldZ = movement->velocity.z * -1;
+					cout << "Object collected! Score: ";
+					cout << num;
+					cout << endl;
+				}
+				else
+				{
+					float bounceX = movement->velocity.x * -1;
+					float bounceZ = movement->velocity.z * -1;
 
-				movement->setVelocity(vec3(oldX, 0, oldZ));
+					movement->setVelocity(vec3(bounceX, 0, bounceZ));
+				}
 
 			}
 		}
 	}
 
-	cout << transform->position.x << endl;
+	//cout << transform->position.x << endl;
 
 	if (transform->position.x >= 50 || transform->position.x <= -50) {
 		movement->setVelocity(vec3(movement->velocity.x * -1, 0, movement->velocity.z));

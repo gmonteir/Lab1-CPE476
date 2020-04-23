@@ -7,6 +7,7 @@
 #include <memory>
 #include <vector>
 #include <iostream>
+#include "Component.h"
 #include "Transform.h"
 #include "Movement.h"
 #include "../Controllers/TransformController.h"
@@ -14,7 +15,7 @@
 using namespace std;
 using namespace glm;
 
-class Collision {
+class Collision : public Component {
 
 public:
 
@@ -24,6 +25,7 @@ public:
 	virtual void update();
 
 	bool isColliding;
+	bool isPlayer;
 	shared_ptr<Transform> transform;
 	shared_ptr<Movement> movement;
 	float radius;

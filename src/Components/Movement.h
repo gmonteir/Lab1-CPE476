@@ -5,12 +5,13 @@
 
 #include <glm\glm.hpp>
 #include <memory>
+#include "Component.h"
 #include "Transform.h"
 
 using namespace glm;
 using namespace std;
 
-class Movement {
+class Movement : public Component {
 
 public:
 
@@ -24,6 +25,7 @@ public:
 	vec3 velocity;
 	vec3 rotateSpeed;
 	vec3 scaleSpeed;
+	bool isFrozen = false;
 
 	virtual void update();
 	void setVelocity(vec3 velocity);

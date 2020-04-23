@@ -8,12 +8,13 @@
 #include "../BaseCode/Texture.h"
 #include "../BaseCode/Program.h"
 #include "../BaseCode/MatrixStack.h"
-#include "../Components/Transform.h"
+#include "Component.h"
+#include "Transform.h"
 
 using namespace std;
 using namespace glm;
 
-class Render {
+class Render : public Component {
 
 public:
 
